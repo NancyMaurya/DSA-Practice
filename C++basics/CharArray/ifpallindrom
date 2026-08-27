@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+
+class Solution {
+private:
+    // Helper function to check if character is valid (alphanumeric)
+    bool valid(char ch) {
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9')) {
+            return true;
+        }
+        return false;
+    }
+
+    // Helper function to convert to lowercase
+    char toLowerCase(char ch) {
+        if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) {
+            return ch;
+        } else {
+            // Convert Uppercase to Lowercase
+            char temp = ch - 'A' + 'a';
+            return temp;
+        }
+    }
+
+public:
+    bool isPalindrome(std::string s) {
+        // Step 1: Remove invalid characters and store them in a temporary string
+        std::string temp = "";
+        for (int j = 0; j < s.length(); j++) {
+            if (valid(s[j])) {
+                temp.push_back(s[j]);
+            }
+        }
+
+        // Step 2: Convert all characters in the temporary string to lowercase
+        for (int j = 0; j < temp.length(); j++) {
+            temp[j] = toLowerCase(temp[j]);
+        }
+
+        // Step 3: Check if the string is a palindrome using two pointers
+        int s_ptr = 0;
+        int e_ptr = temp.length() - 1;
+
+        while (s_ptr <= e_ptr) {
+            if (temp[s_ptr] != temp[e_ptr]) {
+                return false;
+            } else {
+                s_ptr++;
+                e_ptr--;
+            }
+        }
+        return true;
+    }
+};
+
+int main() {
+    Solution solver;
+
+    // Test Cases
+    std::string test1 = "A man, a plan, a canal: Panama";
+    std::string test2 = "race a car";
+    std::string test3 = " ";
+
+    std::cout << std::boolalpha; // Prints true/false instead of 1/0
+    std::cout << "Test 1 (\"" << test1 << "\"): " << solver.isPalindrome(test1) << " (Expected: true)\n";
+    std::cout << "Test 2 (\"" << test2 << "\"): " << solver.isPalindrome(test2) << " (Expected: false)\n";
+    std::cout << "Test 3 (\"" << test3 << "\"): " << solver.isPalindrome(test3) << " (Expected: true)\n";
+
+    return 0;
+}

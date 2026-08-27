@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <numeric>
+
+using namespace std;
+
+// This function checks if it is possible to distribute books such that
+// no student reads more than 'mid' pages.
+bool isPossible(vector<int>& arr, int n, int m, int mid) {
+    int studentCount = 1;
+    int pageSum = 0;
+
+    for(int i = 0; i < n; i++) {
+        // If a single book has more pages than our allowed limit 'mid',
+        // then this limit is impossible.
+        if (arr[i] > mid) {
+            return false;
+        }
+
+        // If adding the current book exceeds the 'mid' limit, 
+        // allocate it to the next student.
+        if (pageSum + arr[i] > mid) {
+            studentCount++;
+            pageSum = arr[i]; // Start tracking pages for the new student
+
+            // If the required students exceed the given students 'm', return false
+            if (studentCount > m) {
+                return false;
+            }
+        } 
+        else {
+            // Keep adding books to the current student's pile
+            pageSum += arr[i];
+        }
+    }
+    return true;
+}
+
+// Main Binary Search function to find the optimal allocation barrier
+int allocateBooks(vector<int>& arr, int n, int m) {
+    // If there are more students than books, it's impossible 
+    // because every student must get at least one book.
+    if (m > n) {
+        return -1;
+    }
+
+    int start = 0;
+    int sum = 0;
+
+    for(int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    
+    int end = sum;
+    int ans = -1;
+    int mid = start + (end - start) / 2;
+
+    while (start <= end) {
+        if (isPossible(arr, n, m, mid)) {
+            // If 'mid' works, store it as a possible answer
+            ans = mid;
+            // Since we want the MINIMUM maximum, search the left half
+            end = mid - 1;
+        } 
+        else {
+            // If 'mid' is too small to fit the workload, search the right half
+            start = mid + 1;
+        }
+        mid = start + (end - start) / 2;
+    }
+    return ans;
+}
+
+int main() {
+    // Sample Test Case from the lecture:
+    // Books array represents pages in each book
+    vector<int> books = {10, 20, 30, 40};
+    int n = books.size(); // Number of books
+    int m = 2;            // Number of students
+
+    cout << "--- Book Allocation Problem ---" << endl;
+    cout << "Books pages: [10, 20, 30, 40]" << endl;
+    cout << "Number of students: " << m << endl;
+
+    int result = allocateBooks(books, n, m);
+
+    cout << "The minimum possible maximum pages allocated to a student is: " << result << endl;
+
+    return 0;
+}
