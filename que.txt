@@ -1,0 +1,22 @@
+Check whether an array is sorted
+Return true if the array is sorted in ascending order, otherwise false.
+Example: [2, 5, 7, 11, 15] → true
+[2, 5, 3, 11] → false
+Hint: Don't think about checking the entire array. What relationship between two neighboring elements can you check?
+
+Find the maximum element of an array
+Find and return the largest element recursively.
+Example: [7, 2, 15, 4, 9] → 15
+Restriction: Don't carry a max variable through the parameters. Make the recursive call return something useful.
+
+Reverse a string recursively
+Given "hello", transform it into "olleh" using recursion.
+Restriction: Don't create another reversed string and don't use a loop. Work on the original string using two indices.
+Hint: think about what should happen to:
+
+h e l l o
+↑       ↑
+Check whether a string is a palindrome
+Return true if the string reads the same forward and backward.
+Examples: "racecar" → true, "hello" → false.
+Restriction: No reverse function and no second string. Use recursion with indices.
